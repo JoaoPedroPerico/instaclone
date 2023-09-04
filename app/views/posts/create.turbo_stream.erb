@@ -1,0 +1,3 @@
+<%= turbo_stream.prepend "posts" do %> <!-- Faz o prepend dos posts vindos do partial _post para o elemento de id "posts" localizado no index -->
+    <%= render partial: "post", locals: { post: @post } %>
+<% end %>

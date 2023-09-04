@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Instaclone</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+    <div class="nav">
+      <% if user_signed_in? %> <!-- Função do devise que retorna se há um usuário logado -->
+        <%= link_to "SIGN OUT", destroy_user_session_path, data: { turbo_method: :delete } %> <!-- É necessário usar o turbo_method para informar que não sera GET -->
+        <%= turbo_frame_tag "post-form" do %>
+          <%= link_to"New post", new_post_path %>
+        <% end %>
+      <% else %>
+        <%= link_to "SIGN IN", new_user_session_path %>
+      <% end %>
+    </div>
+    <p class="notice"><%= notice %></p> <!-- Devise -->
+    <p class="alert"><%= alert %></p> <!-- Devise -->
+    <%= yield %> <!-- Renderiza tela -->
+  </body>
+</html>
