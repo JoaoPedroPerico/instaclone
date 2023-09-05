@@ -10,7 +10,8 @@ class User < ApplicationRecord
 
   validates :username, presence: true
 
-  def like!(post)
-    likes << Like.new(post: post)
+  def like!(obj)
+    type = obj.is_a?(Post) ? "Post" : "Comment"
+    likes << Like.new(user_id: obj.user_id, likeable_type: type, likeable_id: obj.id)
   end
 end
