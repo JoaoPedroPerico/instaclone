@@ -10,11 +10,11 @@
         <% if current_user %>
             <% if current_user.likes.find_by(likeable_id: post.id) %>
                 <%= turbo_frame_tag "post-likes-#{post.id}" do %>
-                    <%= button_to "", post_likes_path(post), params: {likeable_type: 'Post'}, class: "post-actions-unlike", method: :delete %>
+                    <%= button_to "", post_likes_path(post), params: {likeable_type: "Post"}, class: "post-actions-unlike", method: :delete %>
                 <% end %>
             <% else %>
                  <%= turbo_frame_tag "post-likes-#{post.id}" do %>
-                    <%= button_to "", post_likes_path(post), params: {likeable_type: 'Post'}, class: "post-actions-like" %>
+                    <%= button_to "", post_likes_path(post), params: {likeable_type: "Post"}, class: "post-actions-like" %>
                 <% end %>
             <% end %>
         <% end %>
