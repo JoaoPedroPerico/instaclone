@@ -6,22 +6,26 @@
     <div class="post-body">
         <span> <%= post.body %> </span>
     </div>
+
     <div class="post-actions">
-        <% if current_user %>
-            <% if current_user.likes.find_by(likeable_id: post.id) %>
-                <%= turbo_frame_tag "post-likes-#{post.id}" do %>
+        <% if current_user %> <!-- Ações redenrizam somente se existir usuário logado -->
+            <% if current_user.likes.find_by(likeable_id: post.id, likeable_type: "Post") %>
+                <%= turbo_frame_tag "post-likes-#{post.id}" do %> <!-- Se já estiver curtido -->
                     <%= button_to "", post_likes_path(post), params: {likeable_type: "Post"}, class: "post-actions-unlike", method: :delete %>
                 <% end %>
             <% else %>
-                 <%= turbo_frame_tag "post-likes-#{post.id}" do %>
+                 <%= turbo_frame_tag "post-likes-#{post.id}" do %> <!-- Se não estiver curtido -->
                     <%= button_to "", post_likes_path(post), params: {likeable_type: "Post"}, class: "post-actions-like" %>
                 <% end %>
             <% end %>
         <% end %>
-        <div class="post-actions-comments" id="post-comments-count-<%=post.id%>" > <%= pluralize(post.comments.count, "comment") %> </div>
+        <div class="post-actions-comments" id="post-comments-count-<%=post.id%>" > <%= pluralize(post.comments.count, "comment") %> </div> <!-- Contador de comentários -->
     </div>
+
     <div class="post-comments">
-        <div id="comment-form-<%=post.id%>"> <%= render partial: "comments/form", locals: { post: post } %> </div>
+        <% if current_user %> <!-- Form de comentário redenriza somente se existir usuário logado -->
+            <div id="comment-form-<%=post.id%>"> <%= render partial: "comments/form", locals: { post: post } %> </div>
+         <% end %>
         <div id="post-comments-list-<%=post.id%>">
             <%= render partial: "comments/list", locals: { post: post } %>
         </div>

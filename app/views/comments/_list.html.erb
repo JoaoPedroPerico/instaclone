@@ -2,5 +2,16 @@
     <div class="comment">
         <span class="comment-author"> <%= comment.user.username %> </span>
         <%= comment.body %>
+        <% if current_user && comment.likes.find_by(user_id: current_user.id, likeable_type: "Comment")%>
+            <%= turbo_frame_tag "comment-likes-#{comment.id}" do %>
+                <%= button_to "", post_likes_path(comment), params: {likeable_type: "Comment", comment_id: comment.id}, class: "post-actions-unlike", method: :delete %>
+            <% end %>
+            <%# button_to "", post_likes_path(comment), params: {likeable_type: "Comment"}, class: "post-actions-unlike", method: :delete %>
+        <% elsif %>
+            <%= turbo_frame_tag "comment-likes-#{comment.id}" do %>
+                <%= button_to "", post_likes_path(comment), params: {likeable_type: "Comment", comment_id: comment.id}, class: "post-actions-like" %>
+            <% end %>
+            <%# button_to "", post_likes_path(comment), params: {likeable_type: "Comment"}, class: "post-actions-like" %>
+        <% end %>
     </div>
 <% end %>
