@@ -1,4 +1,5 @@
-<%= form_with model: Comment.new, url: post_comments_path(post), class: "comment-form-#{ post.id }" do |f| %>
+<%= form_with model: Comment.new, url: post_comments_path(post), class: "comment-form-#{ post.id }", 
+data: { controller: "comment", action: "turbo:submit-end->comment#reset"} do |f| %>
     <%= f.text_field :body %>
     <%= f.submit :post %>
 <% end %>
